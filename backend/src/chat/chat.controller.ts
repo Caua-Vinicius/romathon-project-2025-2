@@ -14,8 +14,9 @@ import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { FullChat } from './types/full-chat.type';
 import { CreateNewMessageDto } from './dto/create-new-message.dto';
 import { NewMessageResponseType } from './types/new-message-response.type';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags, ApiBody } from '@nestjs/swagger';
 
+@ApiTags('Chat')
 @ApiBearerAuth()
 @Controller('chat/sessions')
 @UseGuards(JwtAuthGuard)
@@ -23,16 +24,19 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Get()
+  @ApiOperation({ summary: 'List all chat sessions for the current user.' })
   async listUserSessions(@GetUser() user: User): Promise<ChatSession[]> {
     return await this.chatService.fetchAllChatSessions(user.id);
   }
 
   @Post()
+  @ApiOperation({ summary: 'Create a new chat session for the current user.' })
   async createChatSession(@GetUser() user: User): Promise<ChatSession> {
     return await this.chatService.createNewSession(user.id);
   }
 
   @Get('/:sessionId')
+  @ApiOperation({ summary: 'Get the full message history of a chat session.' })
   async getSessionHistory(
     @Param('sessionId') sessionId: string,
   ): Promise<FullChat> {
@@ -40,6 +44,11 @@ export class ChatController {
   }
 
   @Post('/:sessionId/message')
+  @ApiOperation({
+    summary:
+      'Send a new message to a chat session and process XP/achievements.',
+  })
+  @ApiBody({ type: CreateNewMessageDto })
   async sendNewMessageToChat(
     @Param('sessionId') sessionId: string,
     @GetUser() user: User,
@@ -53,6 +62,7 @@ export class ChatController {
   }
 
   @Delete('/:sessionId')
+  @ApiOperation({ summary: 'Delete a specific chat session.' })
   async deleteChat(
     @Param('sessionId') sessionId: string,
   ): Promise<ChatSession> {
