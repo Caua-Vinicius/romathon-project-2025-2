@@ -1,0 +1,112 @@
+.sidebar {
+  width: 16rem;
+  height: 95vh;
+  background-color: #0d0d23;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  margin-right: 0.75rem;
+  object-fit: contain;
+}
+
+.sidebar-title {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.sidebar-button {
+  background-color: #9333ea; 
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.sidebar-button:hover {
+  background-color: #7e22ce; 
+}
+
+.sidebar-section {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar-section-title {
+  color: #9ca3af; 
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.sidebar-item:hover {
+  color: #a855f7;
+}
+
+.sidebar-sublist {
+  margin-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; 
+  margin-top: 0.75rem;
+}
+
+.sidebar-sublist span {
+  color: #9ca3af; 
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.sidebar-sublist span:hover {
+  color: #a855f7; 
+}
+
+.sidebar-footer {
+  margin-top: auto;
+}
+
+.sidebar-level,
+.sidebar-next-level {
+  color: #9ca3af;
+  font-size: 0.75rem;
+}
+
+.sidebar-progress {
+  width: 100%;
+  background-color: #374151; 
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.sidebar-progress-bar {
+  background-color: #9333ea;
+  height: 0.5rem;
+  border-radius: 0.25rem;
+}

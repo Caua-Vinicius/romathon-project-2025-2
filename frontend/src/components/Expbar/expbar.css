@@ -1,0 +1,24 @@
+.expbar {
+  margin-top: auto;
+}
+
+.expbar-level,
+.expbar-next-level {
+  color: #9ca3af; 
+  font-size: 0.75rem;
+}
+
+.expbar-progress {
+  width: 100%;
+  background-color: #374151;
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  margin: 0.25rem 0;
+}
+
+.expbar-progress-bar {
+  background-color: #9333ea; 
+  height: 0.5rem;
+  border-radius: 0.25rem;
+  transition: width 0.3s ease;
+}
