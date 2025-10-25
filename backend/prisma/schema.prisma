@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(uuid()) @db.Uuid
+  name   String   @map("display_name") @db.VarChar(100)
+  email         String   @unique @db.VarChar(255)
+  password      String   @db.VarChar(255)
+  createdAt     DateTime @default(now()) @map("created_at") @db.Timestamp()
+  clarityLevel  Int      @default(1) @map("clarity_level")
+  clarityXp     Int      @default(0) @map("clarity_xp")
+  xpToNextLevel Int      @default(1000) @map("xp_to_next_level")
+  lastUpdatedAt DateTime @updatedAt @map("last_updated_at") @db.Timestamp()
+
+  profileData  UserProfileData?
+  achievements UserAchievement[]
+  sessions     ChatSession[]
+
+  @@map("users")
+}
+
+model UserProfileData {
+  id       String   @id @default(uuid()) @db.Uuid
+  userId   String   @unique @map("user_id") @db.Uuid
+  keywords String[]
+  areas    String[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profile_data")
+}
+
+model AchievementMaster {
+  id          String @id @default(uuid()) @db.Uuid
+  title       String @db.VarChar(100)
+  description String @db.Text
+  icon        String @db.VarChar(255)
+  color       String @db.VarChar(50)
+
+  unlockedBy UserAchievement[]
+
+  @@map("achievements_master")
+}
+
+model UserAchievement {
+  id            String   @id @default(uuid()) @db.Uuid
+  userId        String   @map("user_id") @db.Uuid
+  achievementId String   @map("achievement_id") @db.Uuid
+  unlockedAt    DateTime @default(now()) @map("unlocked_at") @db.Timestamp()
+
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement AchievementMaster @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+  @@map("user_achievements")
+}
+
+model ChatSession {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @map("user_id") @db.Uuid
+  title     String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
+  summary   String   @db.Text
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@map("chat_sessions")
+}
+
+model Message {
+  id        String   @id @default(uuid()) @db.Uuid
+  sessionId String   @map("session_id") @db.Uuid
+  role      String   @db.VarChar(10)
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp()
+
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
