@@ -102,3 +102,33 @@
 .chat-send:hover {
   background-color: #7e22ce;
 }
+
+.chat-message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.chat-message.bot {
+  justify-content: flex-start;
+}
+
+.chat-message.bot .chat-bubble {
+  background-color: #374151; 
+  color: #e5e7eb;
+  border-radius: 0.75rem;
+}
+
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-message.user .chat-bubble {
+  background-color: #9333ea; 
+  color: white;
+  border-radius: 0.75rem;
+}
+
+.chat-message.user .chat-avatar {
+  display: none; 
+}

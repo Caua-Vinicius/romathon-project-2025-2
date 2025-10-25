@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "../../components/Sidebar";
-import Expbar from "../../components/Expbar"; 
+import Expbar from "../../components/Expbar";
 import "./profile.css";
 
+interface IProfileData {
+  traits: string[];
+  achievements: { id: string; name: string; unlockedAt?: string }[];
+}
+
 export default function Profile() {
+  // Dados mocados
+  const [profile] = useState<IProfileData>({
+    traits: ["Criativa", "Organizada", "Persistente"],
+    achievements: [
+      { id: "1", name: "Primeira Jornada", unlockedAt: "2025-10-25" },
+      { id: "2", name: "Conquista XP" },
+    ],
+  });
+
   return (
     <div className="profile-page">
       <Sidebar />
@@ -16,36 +30,38 @@ export default function Profile() {
         </p>
 
         <div className="profile-expobar">
-          <Expbar level={1} progress={45} /> 
+          <Expbar />
         </div>
 
         <div className="profile-traits">
           <h3>Traços Vocacionais Descobertos</h3>
           <div className="traits-tags">
-            <span className="trait">Analítico</span>
-            <span className="trait">Estrategista</span>
-            <span className="trait inactive">Empathy (Ainda Incipiente)</span>
-            <span className="trait">Orientado a Dados</span>
+            {profile.traits.length > 0 ? (
+              profile.traits.map((trait, index) => (
+                <span key={index} className="trait">{trait}</span>
+              ))
+            ) : (
+              <span className="trait inactive">Nenhum traço descoberto ainda</span>
+            )}
           </div>
         </div>
 
         <div className="profile-achievements">
           <h3>Suas Conquistas</h3>
           <div className="achievements-cards">
-            <div className="achievement-card">
-              <div className="icon">📖</div>
-              <div className="text">
-                <strong>O Estrategista</strong>
-                <p>Desbloqueado: (Ainda não)</p>
-              </div>
-            </div>
-            <div className="achievement-card">
-              <div className="icon">📄</div>
-              <div className="text">
-                <strong>O Explorador</strong>
-                <p>Desbloqueado: (Ainda não)</p>
-              </div>
-            </div>
+            {profile.achievements.length > 0 ? (
+              profile.achievements.map((ach) => (
+                <div key={ach.id} className="achievement-card">
+                  <div className="icon">🏆</div>
+                  <div className="text">
+                    <strong>{ach.name}</strong>
+                    <p>Desbloqueado: {ach.unlockedAt || "(Ainda não)"}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>Nenhuma conquista desbloqueada ainda</p>
+            )}
           </div>
         </div>
       </div>
