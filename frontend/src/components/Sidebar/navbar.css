@@ -110,3 +110,44 @@
   height: 0.5rem;
   border-radius: 0.25rem;
 }
+
+.sidebar-button-sair {
+  background-color: #ef4444; 
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-button-sair:hover {
+  background-color: #b91c1c; 
+}
+
+.sidebar-sublist {
+  display: flex;
+  flex-direction: column;
+  max-height: 200px; 
+  overflow-y: auto;
+  margin-left: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+.sidebar-sublist::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-sublist::-webkit-scrollbar-thumb {
+  background-color: #9333ea;
+  border-radius: 3px;
+}
+
+.sidebar-sublist::-webkit-scrollbar-track {
+  background: #1e1e2e;
+}
+
