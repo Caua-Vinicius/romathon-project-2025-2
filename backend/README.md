@@ -1,98 +1,204 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# LUMICA API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+API para suporte a chat vocacional, registro de usuários, perfil e gerenciamento de sessões de chat.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Variáveis de Ambiente
 
-## Description
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+```env
+DATABASE_URL="postgres://root:1234@localhost:5432/postgres?schema=public"
+JWT_SECRET=açsldjfh3842hr98237
+GOOGLE_API_KEY=SUA-API-KEY
 ```
 
-## Compile and run the project
+- `DATABASE_URL`: string de conexão com o PostgreSQL.
+- `JWT_SECRET`: chave secreta para gerar tokens JWT.
+- `GOOGLE_API_KEY`: chave da API do Google Gemini.
+
+---
+
+## Rodando o PostgreSQL com Docker
+
+Você pode criar e rodar um container PostgreSQL usando:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+docker run -d   --name postgres-root   -e POSTGRES_USER=root   -e POSTGRES_PASSWORD=1234   -e POSTGRES_DB=postgres   -v pgdata:/var/lib/postgresql/data   -p 5432:5432   postgres:15
 ```
 
-## Run tests
+Isso cria o banco `postgres` com usuário `root` e senha `1234`, mapeando a porta local `5432`.
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+## Iniciando o Projeto
 
-# test coverage
-$ npm run test:cov
+1. Clone o repositório e instale as dependências:
+   ```bash
+   npm install
+   ```
+
+2. Configure o `.env` conforme indicado acima.
+
+3. Execute as migrações:
+   ```bash
+   npx prisma migrate deploy
+   ```
+
+4. Inicie o servidor:
+   ```bash
+   npm run dev
+   ```
+
+O backend estará disponível em `http://localhost:3000`.
+
+---
+
+## Rotas da API
+
+### 🔐 Auth
+
+#### **POST /auth**
+Registra um novo usuário.
+
+**Body:**
+```json
+{
+  "name": "Cauã Silva",
+  "email": "caua@example.com",
+  "password": "123456"
+}
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+#### **POST /auth/login**
+Autentica um usuário e retorna o token JWT.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+**Body:**
+```json
+{
+  "email": "caua@example.com",
+  "password": "123456"
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+#### **GET /auth/me**
+Retorna os dados do usuário autenticado.
 
-Check out a few resources that may come in handy when working with NestJS:
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+### 💬 Chat Sessions
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+#### **GET /chat/sessions**
+Lista todas as sessões de chat do usuário autenticado.
 
-## Stay in touch
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+#### **POST /chat/sessions**
+Cria uma nova sessão de chat.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
+
+---
+
+#### **GET /chat/sessions/{sessionId}**
+Obtém o histórico completo de uma sessão.
+
+**Path Params:**
+```
+sessionId
+```
+
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
+
+---
+
+#### **POST /chat/sessions/{sessionId}/message**
+Envia uma nova mensagem para uma sessão e processa XP e conquistas.
+
+**Path Params:**
+```
+sessionId
+```
+
+**Body:**
+```json
+{
+  "content": "Olá, quero explorar minha carreira."
+}
+```
+
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
+
+---
+
+#### **DELETE /chat/sessions/{sessionId}**
+Deleta uma sessão de chat específica.
+
+**Path Params:**
+```
+sessionId
+```
+
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
+
+---
+
+### 👤 Profile
+
+#### **GET /profile/me**
+Retorna o perfil completo do usuário autenticado.
+
+**Headers:**
+```
+Authorization: Bearer <TOKEN>
+```
+
+---
+
+## 🧪 Testando a API
+
+1. Verifique se o container do PostgreSQL está em execução.
+2. Confirme que o `.env` contém `DATABASE_URL`, `JWT_SECRET` e `GOOGLE_API_KEY`.
+3. Execute:
+   ```bash
+   npm run dev
+   ```
+4. Use **Postman**, **Insomnia** ou **curl** para testar as rotas.
+5. Para rotas protegidas, envie o header:
+   ```bash
+   Authorization: Bearer <TOKEN>
+   ```
+
+---
+
+## ⚙️ Observações
+
+- Todas as rotas protegidas exigem autenticação JWT.
+- O **Prisma** é utilizado como ORM para comunicação com o PostgreSQL.
+- O **Google Gemini** é usado para gerar respostas no chat vocacional.
+- O sistema aplica XP e conquistas conforme o usuário interage com o chatbot.
