@@ -31,6 +31,9 @@ export class AuthService {
       data: {
         ...registerUserDto,
         password: hashedPassword,
+        profileData: {
+          create: {},
+        },
       },
       select: {
         id: true,
