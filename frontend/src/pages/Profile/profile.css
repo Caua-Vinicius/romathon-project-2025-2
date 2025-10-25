@@ -1,0 +1,81 @@
+.profile-page {
+  display: flex;
+  height: 100vh;
+  background-color: #0b0b1e;
+  color: #fff;
+}
+
+.profile-content {
+  flex: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+}
+
+.profile-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.profile-description {
+  color: #aaa;
+  margin-bottom: 2rem;
+}
+
+.profile-expobar {
+  margin-bottom: 2rem;
+}
+
+.profile-traits h3 {
+  margin-bottom: 0.5rem;
+}
+
+.traits-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.trait {
+  background-color: #6b46c1;
+  padding: 0.3rem 0.8rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.trait.inactive {
+  background-color: #44475a;
+  color: #888;
+}
+
+.profile-achievements {
+  margin-top: 2rem;
+}
+
+.achievements-cards {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  background-color: #111133;
+  padding: 1rem;
+  border-radius: 10px;
+  flex: 1 1 200px;
+  min-width: 200px;
+  gap: 0.5rem;
+  opacity: 0.6;
+}
+
+.achievement-card .icon {
+  font-size: 2rem;
+}
+
+.achievement-card .text p {
+  font-size: 0.8rem;
+  color: #aaa;
+  margin: 0;
+}
