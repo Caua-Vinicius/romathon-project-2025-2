@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import "./expbar.css";
 
 export default function Expbar() {
-  // Dados mocados
   const [level] = useState(3);
   const [progress] = useState(45);
 
