@@ -69,23 +69,12 @@
   color: #a855f7;
 }
 
-.sidebar-sublist {
-  margin-left: 1.5rem;
+.sidebar-xp {
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem; 
-  margin-top: 0.75rem;
-}
-
-.sidebar-sublist span {
-  color: #9ca3af; 
-  font-size: 0.875rem;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.sidebar-sublist span:hover {
-  color: #a855f7; 
+  align-items: center;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .sidebar-footer {

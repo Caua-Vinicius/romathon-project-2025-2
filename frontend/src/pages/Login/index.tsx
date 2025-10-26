@@ -21,7 +21,7 @@ export default function Login() {
       localStorage.setItem("token", access_token);
       if (userName) localStorage.setItem("userName", userName);
 
-      navigate("/lumicaChat/1"); 
+      navigate("/lumicaChat"); 
     } catch (err: any) {
       console.error("Erro no login:", err);
       alert(err.response?.data?.message || "Email ou senha inválidos!");

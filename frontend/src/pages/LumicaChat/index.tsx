@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaArrowUp } from "react-icons/fa";
+import { FaArrowUp, FaStar } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/Sidebar";
 import { IMessage } from "../../interfaces/IMessage";
@@ -91,7 +91,10 @@ export default function LumicaChat() {
       <Sidebar />
       <div className="chat-container">
         <div className="chat-header">
-          <h2 className="chat-title">Sua Jornada Atual</h2>
+          <h2 className="chat-title">
+            <FaStar style={{ marginRight: "8px", color: "#FFD700" }} /> 
+            Sua Jornada 
+          </h2>
           <span className="chat-status">{loading ? "Enviando..." : "Conectado ao LumicaAI"}</span>
         </div>
 
